@@ -26,8 +26,8 @@ const Laptop = ({ scale, position, rotationX, rotationY }) => {
       scale={scale}
       position={position}
       rotation={[
-        rotationX, // 🔥 Slight downward tilt
-        rotationY, // 🔥 Slight leftward tilt for 3/4th view
+        rotationX, // Slight downward tilt
+        rotationY, //Slight leftward tilt for 3/4th view
         0,
       ]}
     />
@@ -41,40 +41,51 @@ const LaptopCanvas = ({ scrollContainer }) => {
   const [position, setPosition] = useState([3, 1.7, -3.2]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = scrollContainer.current.scrollTop;
-      setRotationX(0 + scrollTop * -0.0005);
-      setRotationY(0 + scrollTop * -0.0007);
-    };
+    // const handleScroll = () => {
+    //   const scrollTop = scrollContainer.current.scrollTop;
+    //   setRotationX(0 + scrollTop * -0.0005);
+    //   setRotationY(0 + scrollTop * -0.0007);
+    // };
 
     const handleResize = () => {
       const width = window.innerWidth;
-      let newScale, newPosition;
+      let newScale, newPosition,newRotationX,newRotationY;
 
       if (width < 640) {
         newScale = [0.8, 0.8, 0.8];
-        newPosition = [0, .5, -2,5]; 
+        newPosition = [0, .2, -2,5];
+        newRotationX = 0.4;
+        newRotationY = -0.5; 
       } else if (width < 1024) {
         newScale = [1.1, 1.1, 1.1];
-        newPosition = [.65, .5, -2.5];
+        newPosition = [.65, .2, -2.5];
+        newRotationX = 0.4;
+        newRotationY = -0.5;
       } else if (width < 1280) {
         newScale = [1.3, 1.3, 1.3];
-        newPosition = [1.65, 1, -2.5];
+        newPosition = [1.65, .2, -2.5];
+        newRotationX = .25;
+        newRotationY = -0.7;
       } else {
         newScale = [1.3, 1.3, 1.3];
-        newPosition = [3, 1, -2.5];
+        newPosition = [3, .2, -2.5];
+        newRotationX = .25;
+        newRotationY = -.7;
       }
 
       setScale(newScale);
       setPosition(newPosition);
+      setRotationX(newRotationX);
+      setRotationY(newRotationY);
+
     };
 
     handleResize();
-    window.addEventListener("scroll", handleScroll);
+    //window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      //window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, [scrollContainer]);
